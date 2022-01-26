@@ -1,0 +1,4 @@
+organization_id,name,email,department_id,password,phone,extension
+6,Marcelo Mazarem,marcelo.mazarem@gmail.com.br,40,12345678,(51)9 8594-1705,NULL
+6,Paulo Soares de Oliveira,paulo.soares@gmail.com.br,40,12345678,(51)9 9619-0038,NULL
+6,Ruan de Camargo Teixeira,ruan@gmail.com.br,37,12345678,(48)9 9820-0130,2010

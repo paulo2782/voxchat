@@ -1,0 +1,126 @@
+{{> menu }} 
+<div class="card" style="padding:100px;">
+<form id="editUserForm"style="width: 960px;padding: 51px;margin: 0;padding-top: 42px;margin-top: -69px;padding-right: 40px;max-width: none;">
+    <h2  for="">Alteração de Usuário</h2 style="padding:10px;">
+
+    <input id="edit-name" class="form-control" type="text" placeholder="Nome " value='{{name}}' style="width: 300px;">
+
+    <select id="edit-department_id" class="form-select departmentSel" style="width: 300px;">
+        <option selected>Menu de departamento</option>
+    </select> 
+    <input id="edit-email" class="form-control" type="text" placeholder="E-mail" disabled value= '{{email}}'  style="width: 300px;">
+
+    <input id="edit-phone" class="form-control" type="text" placeholder="Phone" value='{{phone}}' style="width: 300px;">
+            
+</form>
+<div class="row" style="margin: 10px; margin: 10px;">
+
+<button id="back-Btn"  class="btn btn-primary" type="button" style="margin: 10px; width: 20%;"><i class="fas fa-arrow-left"></i> </button>
+
+<button id="editUserBtn"  class="btn btn-primary" type="button" style="margin: 10px; width: 20%;">SALVAR ALTERAÇÃO </button>
+
+</div>
+<!-- End Navbar -->
+<!--   Core JS Files   -->
+
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="../assets/js/plugins/chartjs.min.js"></script>
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+{{!-- <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script> --}}
+</body>
+
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/conf/variaveis.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+
+var editDep = '{{department_id}}'
+
+var userDepartmentSelect = document.querySelector("#edit-department_id")
+
+
+var editUserBtn =document.querySelector("#editUserBtn")
+var editForm =document.querySelector("#editUserForm")
+var editUserObj ={}
+var alreadyBuildDeps = false
+editUserBtn.addEventListener("click",e=>{
+    var form = [...editForm]
+    form.forEach((inp)=>{
+        let id = inp.id
+        id = id.substr(5)
+        console.log(id)
+       
+        
+        if(id == "department_id"){
+            
+            editUserObj[id] = parseInt(inp.selectedOptions[0].id)
+        }
+        else
+        {
+            editUserObj[id] = inp.value 
+        }
+    })  
+    if(!editUserObj.email.includes('@'))return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"email precisa ser válido!"})
+    if(isNaN(editUserObj.department_id)) return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"Você precisa escolher um departamento pro Usuário!"})
+    else editUser()
+})
+
+function editUser(){
+    axios.post('/department/users/edit/', editUserObj).then((resp)=>{
+            console.log(resp.data)
+            bootbox.alert({ title:"Aviso" ,closeButton: false,message:resp.data})
+        }).catch(resp=>{
+            console.log(resp.msg)
+            bootbox.alert({ title:"Aviso" ,closeButton: false,message:resp.response})
+        })
+
+}
+
+
+ function showTableUsersDeps(){ 
+      if(alreadyBuildDeps){
+            return
+      }else{
+        var opts = new Array()
+      
+        axios.get('/department/depList').then(infos=>{
+            opts = infos.data.table
+           opts.forEach((row,i)=>{
+                let newOption = document.createElement("option")
+                let id = row.id
+
+              //  console.log(id)
+                let name= row.name
+                 if(id == editDep) newOption.selected = true
+                newOption.innerHTML =name 
+                newOption.name = "option"
+                newOption.id = id
+                userDepartmentSelect.appendChild(newOption)
+                console.log(id, editDep)
+              
+              })   
+               alreadyBuildDeps = true
+        })
+      }   
+        
+     
+    }
+showTableUsersDeps()
+
+document.querySelector("#back-Btn").addEventListener("click",(e)=>{
+    
+    window.location.href= "/department"
+
+})
+
+</script>
+

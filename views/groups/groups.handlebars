@@ -1,0 +1,428 @@
+{{> menu }}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <input type="search" name="" id="search-user-allow">
+            <div id="users-to-allow" style="overflow:auto;max-height: 620px">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div id="allows">
+
+            </div>
+            <button id="save-edit-groups" class="btn btn-primary" style="display: none; overflow:auto;max-height: 620px">Salvar</button>
+        </div>
+    </div>
+
+</div>
+
+<i class="fa fa-plus" id="icon-plus" style="display: none;"></i>
+
+<script src="/conf/variaveis.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style>
+    .dep-title {
+        margin: 10px
+    }
+    
+    .icon-plus {
+        position: relative;
+        top: 15px;
+        right: 10px;
+    }
+    
+    .checkin {
+        margin: 16px;
+        float: right;
+    }
+    
+    .userList {
+        margin-left: 35px;
+    }
+    
+    .alg {
+        position: absolute;
+        right: 0;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script>
+    Element.prototype.expand = function() {
+        [this].forEach(el => {
+            console.log(el)
+        })
+        if (this.style.height == '600px') {
+            return this.style.height = '45px'
+        } else {
+            return this.style.height = '600px'
+        }
+    }
+
+    Element.prototype.showList = function() {
+
+        //  return this
+    }
+
+    Element.prototype.pointer = function() {
+        return this.style.cursor = "pointer"
+    }
+    var userList = []
+
+    var depList = []
+
+    var groupsAllow = []
+
+    var userSelected;
+
+    var lastTarget;
+
+    var searchInp = document.querySelector("#search-user-allow")
+
+
+    var saveBtn = document.querySelector("#save-edit-groups")
+    var allowsEl = document.querySelector("#allows")
+    var usersDiv = document.querySelector('#users-to-allow')
+    var iconPlus = document.querySelector("#icon-plus")
+    var toAllowsEl = document.querySelector("#allows")
+
+
+    axios.get('department/list').then(data => {
+            console.log(data.data.table)
+            userList = data.data.table
+            userList.forEach(user => {
+                var userEL = document.createElement('h6')
+                var userName = user.name
+                var userId = user.id
+
+                userEL.innerHTML = userName
+                userEL.id = userId
+                usersDiv.appendChild(userEL)
+                userEL.pointer()
+                userEL.addEventListener('click', (e) => {
+                    $("#allows").empty()
+                    userSelected = e.target.id
+                    editAllowuser(e)
+
+                })
+
+
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+
+
+    axios.get('/department/depList/').then(data => {
+            console.log(data.data.table)
+            depList = data.data.table
+
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        /////USER CLICKADO
+    function editAllowuser(e) {
+
+
+        ///MARCAR USUARIO
+        var targetClicked = e.target
+        targetClicked.style.color = 'red'
+
+        if (lastTarget) {
+            lastTarget.style.color = "#344767"
+        }
+        if (lastTarget = targetClicked) targetClicked.style.color = 'red'
+        lastTarget = targetClicked
+            // console.log(lastTarget)
+
+        /////////////////////////////////////////////
+
+
+        saveBtn.style.display = "block"
+        var userSelectedAllows = []
+        var allowsStr
+        var groupAllows
+            //console.log(userSelected)
+        userList.forEach(user => {
+            if (user.id == userSelected) {
+                allowsStr = user.allow
+                groupAllows = user.allow_dep
+            }
+
+        })
+
+
+        depList.forEach(dep => {
+
+            var depId = dep.id
+            var depName = dep.name
+            var checkClone = document.createElement('input')
+            checkClone.type = "checkbox"
+
+            var br = document.createElement('br')
+
+            var depEl = document.createElement('div')
+            var nameEL = document.createElement('h6')
+            var iconPlusClone = iconPlus.cloneNode()
+            var mainElement = document.createElement('div')
+
+
+            iconPlusClone.style.display = "block"
+            checkClone.style.display = "block"
+
+            iconPlusClone.id = depId
+            checkClone.id = depId
+            nameEL.id = depId
+
+            nameEL.innerHTML = depName
+            nameEL.classList.add("dep-title")
+            iconPlusClone.classList.add("icon-plus")
+            mainElement.classList.add('container')
+            mainElement.style.display = 'flex'
+            mainElement.style.height = '45px'
+            checkClone.name = "department"
+
+            var paiUsersListEl = document.createElement('div')
+
+            checkClone.classList.add("checkin")
+
+            mainElement.appendChild(iconPlusClone)
+            mainElement.appendChild(nameEL)
+            mainElement.appendChild(checkClone)
+
+            depEl.appendChild(mainElement)
+            depEl.appendChild(paiUsersListEl)
+
+            toAllowsEl.appendChild(depEl)
+
+            paiUsersListEl.style.display = 'none'
+
+            insertUsersOnList(depName, depId, paiUsersListEl)
+            iconPlus.pointer()
+            nameEL.pointer()
+
+            // adicionando eventos a tabela de deps
+            //mostrar lista de users
+            iconPlus.addEventListener("click", e => {
+                showUsersToEditAllow(e)
+            })
+            nameEL.addEventListener("click", e => {
+                showUsersToEditAllow(e)
+            })
+
+            // click checkbox para adicionar todos do dep nos selecionados
+            checkClone.addEventListener('click', e => {
+                var userCheckDiv = e.target.parentNode.parentNode.lastChild.lastChild //ultima divi users
+                var allChecks = userCheckDiv.querySelectorAll("input")
+                if (e.target.checked) {
+                    //checar outros
+                    allChecks.forEach(inp => {
+                        inp.checked = true
+                    })
+                }
+                //deselcionar
+                else {
+                    allChecks.forEach(inp => {
+                        inp.checked = false
+                    })
+
+                }
+            })
+
+
+
+
+        })
+
+        ////SELECT CHECKBOS NOS COLEGAS
+        if (allowsStr) {
+            var checks = document.querySelectorAll("input[type='checkbox']");
+            userSelectedAllows = allowsStr.split(',')
+
+            checks.forEach(checkbox => {
+                userSelectedAllows.forEach(id => {
+                    id = parseInt(id)
+                    if (checkbox.id == id) checkbox.checked = true
+                })
+            })
+
+            /////SELECT CHECKBOX DOS GRUPOS
+
+            if (groupAllows) {
+                var checks = document.querySelectorAll("input[type='checkbox']");
+                groupAllows = groupAllows.split(',')
+                checks.forEach(checkbox => {
+                    var cId = checkbox.id
+                        //console.log(cId)
+                    groupAllows.forEach(grup => {
+                        var gId = 'dep' + grup
+                            // console.log(gId)
+                        if (gId == cId) checkbox.checked = true
+                    })
+                })
+
+            }
+
+
+        }
+
+
+
+
+    }
+
+    function showUsersToEditAllow(e) {
+
+        //  e.target.parentNode.expand()
+        if (e.target.parentNode.parentNode.lastChild.style.display == 'flex') {
+            e.target.parentNode.parentNode.lastChild.style.display = 'none'
+            e.target.parentNode.parentNode.lastChild.style.position = 'static'
+        } else {
+            e.target.parentNode.parentNode.lastChild.style.display = 'flex'
+            e.target.parentNode.parentNode.lastChild.style.position = 'relative'
+        }
+    }
+
+
+
+
+
+    function insertUsersOnList(depName, depid, paiUsersListEl) {
+
+
+        var usersListEl = document.createElement('div')
+
+
+        ///dep checkbox
+        var OtDepEl = document.createElement('p')
+        var checkAllowDep = document.createElement('input')
+        var alinhe = document.createElement('div')
+        alinhe.style.display = "flex"
+        checkAllowDep.style.margin = "8px"
+        checkAllowDep.type = "checkbox"
+
+        OtDepEl.innerHTML = "Grupo do Departamento " + depName
+        checkAllowDep.id = "dep" + depid
+        alinhe.appendChild(checkAllowDep)
+        alinhe.appendChild(OtDepEl)
+        usersListEl.appendChild(alinhe)
+
+        userList.forEach(user => {
+            var userElement = document.createElement('p')
+            var checkAllowUser = document.createElement('input')
+            checkAllowUser.type = "checkbox"
+            let depUserId = user.department_id
+            var alinha = document.createElement('div')
+            checkAllowUser.onchange = (e) => {
+                console.log('ouviu')
+                if (e.target.checked == true) {
+                    console.log('verificar')
+                }
+            }
+
+            if (depid == depUserId) {
+                userElement.innerHTML = user.name
+                checkAllowUser.id = user.id
+                alinha.style.display = "flex"
+                checkAllowUser.style.margin = "8px"
+                alinha.appendChild(checkAllowUser)
+                alinha.appendChild(userElement)
+                usersListEl.appendChild(alinha)
+            }
+        })
+        paiUsersListEl.classList.add("userList")
+        paiUsersListEl.appendChild(usersListEl)
+
+
+    }
+
+    saveBtn.addEventListener("click", e => {
+        var checks = document.querySelectorAll("input[type='checkbox']");
+        var myAllows = []
+        checks.forEach(inp => {
+            var id = inp.id
+            if (inp.name != "department") {
+                if (inp.checked) {
+                    if (id.includes("dep")) {
+                        let gid = id.replace("dep", "")
+                        groupsAllow.push(gid)
+                    } else myAllows.push(inp.id)
+                        //
+                }
+            }
+        })
+
+        console.log(myAllows)
+        axios.post("/allow", {
+            user: userSelected,
+            myAllows,
+            groupsAllow
+        }).then(data => {
+            if (data.data == "ok") {
+                alert("Permissões Alteradas")
+                window.location.reload()
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    })
+
+    searchInp.addEventListener("keyup", (e) => {
+        $("#users-to-allow").empty()
+        var onsearch = e.target.value.toLowerCase()
+
+        userList.forEach(user => {
+            var userName = user.name.toLowerCase()
+            if (userName.includes(onsearch)) {
+                //console.log(onsearch)
+
+                var userEL = document.createElement('h6')
+                var userName = user.name
+                var userId = user.id
+
+                userEL.innerHTML = userName
+                userEL.id = userId
+                usersDiv.appendChild(userEL)
+                userEL.pointer()
+                userEL.addEventListener('click', (e) => {
+                    $("#allows").empty()
+                    userSelected = e.target.id
+                    editAllowuser(e)
+
+                })
+
+            }
+        })
+        if (onsearch == "") {
+          $("#users-to-allow").empty()
+            userList.forEach(user => {
+
+                var userEL = document.createElement('h6')
+                var userName = user.name
+                var userId = user.id
+
+                userEL.innerHTML = userName
+                userEL.id = userId
+                usersDiv.appendChild(userEL)
+                userEL.pointer()
+                userEL.addEventListener('click', (e) => {
+                    $("#allows").empty()
+                    userSelected = e.target.id
+                    editAllowuser(e)
+
+                })
+
+
+            })
+
+
+        }
+    })
+</script>

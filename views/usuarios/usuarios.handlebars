@@ -1,0 +1,192 @@
+
+
+{{> menu }}
+<div class="container">
+<div class="card-body">
+  <div class="row">
+  <div class="col-lg-3">
+  <div class="card text-white bg-success mb-3 painel1" style="max-width: 18rem;">
+  </div>
+  </div>
+    <div class="container">
+  <div class="card">
+  <div class="card-body">
+    <form id="formUser"style="width: 960px;padding: 51px;margin: 0;padding-top: 42px;margin-top: -69px;padding-right: 40px;max-width: none;">
+      <h2  for="">Cadastro de Usuários da Organização</h2 style="padding:10px;">
+      <br>
+      <input id="name" class="form-control" type="text" placeholder="Nome " style="width: 300px;">
+      <br>
+      <select id="department_id" class="form-select departmentSel" style="width: 300px;">
+          <option selected >Menu de departamento</option>
+      </select> 
+      <br>
+      <input id="email" class="form-control" type="text" placeholder="E-mail" style="width: 300px;">
+      <br>
+      <input id="password" class="form-control" type="password" placeholder="Senha" style="width: 300px;">
+      <br>
+      <input id="confirm" class="form-control" type="password" placeholder="Confirme a Senha" style="width: 300px;">
+      <br>
+      <input id="phone" class="form-control" type="text" placeholder="Phone" style="width: 300px;">
+      <br>
+    <div class="row">
+      <div class="col-lg-3">
+        <button id="newUserBtn"  class="btn btn-primary form-control" type="button">NOVO USUÁRIO </button>
+      </div>
+        <div class="col-lg-3">
+          <a href="/templates/template_users.csv"> 
+            <button type="button" id="down-example-template" class="btn btn-dark form-control">DONWLOAD TEMPLATE CSV</button>
+          </a>            
+        </div>
+        <div class="col-lg-3">
+          <button type="button" id="insert-table-btn" class="btn btn-danger form-control">IMPORTAR CSV USUÁRIOS</button>
+      </div>
+      <div class="col-lg-3">
+          <button type="button" id="export-table-btn" class="btn btn-default form-control">EXPORTAR TABELA CSV USUÁRIOS</button>
+          <a href="/templates/csvUsers.csv" style="display:none" id="download-csv">DOWNLOAD CSV</a>
+      </div>
+      <div class="col-lg-3">
+          <button type="button" id="update-table-btn" class="btn btn-light form-control">ATUALIZAR CSV USUÁRIOS</button>
+      </div>
+    </div>
+
+    </form>
+       <form id="form-new-users">
+        <input id="insert-csv-table" type="file" accept=".csv" name="insert-csv-table" style="display: none;">
+      </form>
+      <form id="update-table-form">
+        <input id="update-table-input" type="file" accept="=.csv" name ="update-table-input" style="display: none;">
+      </form>
+      
+  </div>                    
+  </div>
+  
+</div>
+</div>    
+
+</div>
+
+
+<script src="/conf/variaveis.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  var form = document.querySelector("#form-new-users")
+  var btnInsertTable = document.querySelector("#insert-table-btn")
+  var csvInput = document.querySelector("#insert-csv-table")
+  btnInsertTable.addEventListener("click",(e)=>{
+    csvInput.click()
+  })
+  csvInput.addEventListener("change", e=>{
+    var formData = new FormData(form)
+    axios.post('/usuarios/newOrgUsers', formData)
+    .then(resp => {console.log(resp)})
+    .catch(err=>{console.log(err.response)})
+  })
+
+  var exportCSV = document.querySelector('#export-table-btn')
+
+  exportCSV.addEventListener('click', e=>{
+     
+    axios.get('/usuarios/exportCsvUser')
+    .then(resp => {
+        bootbox.alert({ title:"Aviso" ,closeButton: false,message:resp.data.msg})
+      
+      document.querySelector('#download-csv').click()
+    })
+    .catch(err=>{console.log(err)})
+  })
+
+
+  var userDepartmentSelect = document.querySelector("#department_id") 
+  var alreadyBuildDeps = false;
+   function showTableUsersDeps(){ 
+      if(alreadyBuildDeps){
+            return
+      }else{
+        var opts = new Array()
+      
+        axios.get('/department/depList').then(infos=>{
+            opts = infos.data.table
+            
+            opts.forEach((row,i)=>{
+                let newOption = document.createElement("option")
+                let id = row.id
+              //  console.log(id)
+                let name= row.name
+                newOption.innerHTML =name 
+                newOption.name = "option"
+                newOption.id = id
+                userDepartmentSelect.appendChild(newOption)
+               
+              })   
+               alreadyBuildDeps = true
+        }).catch(err=>{console.log(err.response)})
+      }   
+        
+     
+    } 
+        
+showTableUsersDeps()
+
+  var orgid = '{{organization_id}}'
+  $(newUserBtn).attr('name', orgid)
+  var newUser ={}
+  var userForm =document.querySelector("#formUser")
+  var newUserBtn = document.querySelector("#newUserBtn")
+  //new user btn 
+  
+  newUserBtn.addEventListener('click',(e)=>{
+            newUser.active = 1;
+            [...userForm].forEach((inp)=>{
+                let id = inp.id
+                //console.log(inp, inp.id)
+                
+                if(id == "department_id"){
+                 
+                    newUser[id] = parseInt(inp.selectedOptions[0].id)
+                }
+                else
+                {
+                    newUser[id] = inp.value 
+                }
+            })  
+            if(newUser.password != newUser.confirm)  return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"Confirme sua Senha"})
+            if(!newUser.email.includes('@')) return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"email precisa ser válido!"})
+            if(newUser.password.length < 8)  return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"Digite uma senha com no minimo 8 caracteres!"})
+            if(isNaN(newUser.department_id))  return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"Você precisa escolher um departamento pro Usuário!"})
+            else sendNewUser(newUser)
+        })
+
+  
+  function sendNewUser(newUser){
+ 
+    axios.post('usuarios/newUsers',this.newUser).then(resp=>{
+        console.log(resp.data)
+        bootbox.alert({ title:"Aviso" ,closeButton: false,message:resp.data})
+       // $('#userTable').DataTable().ajax.reload();
+    }).catch(err=>{
+        console.log(err.response)
+        bootbox.alert({ title:"Aviso" ,closeButton: false,message:'error'})
+       // $('#userTable').DataTable().ajax.reload();
+    })
+
+  }
+
+  var updateCsvBtn  = document.querySelector("#update-table-btn")
+  var updateInput   = document.querySelector("#update-table-input")
+  var updateForm    = document.querySelector("#update-table-form")
+  updateCsvBtn.addEventListener("click", (e)=>{
+    updateInput.click()
+  })
+  updateInput.addEventListener("change",(e)=>{
+    var formData = new FormData(updateForm)
+    axios.post('/usuarios/updateOrgUsers', formData)
+    .then(resp => {console.log(resp)})
+    .catch(err=>{console.log(err.response)})
+  })
+
+
+</script>
+
+
+

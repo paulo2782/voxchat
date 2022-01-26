@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Register - Brand</title>
+    <link rel="stylesheet" href="../../forgot/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="../../forgot/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../forgot/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../forgot/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="../../forgot/assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../forgot/assets/css/Social-Icons.css">
+
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-flex">
+                        <div class="card">
+                            <div class="card-body"></div>
+                        </div>
+                        <picture><img class="img-fluid" src="../../forgot/assets/img/CARD%20VOXCHAT.png" style="margin-left: 0;transform: scale(1.09);"></picture>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4" style="font-size: 34px;">Alterar senha:</h4>
+                            </div>
+                            <form class="user">
+                                <div class="row mb-3">
+                                    <input type="hidden" name="token" value="{{token}}">
+                                    <div class="col-sm-6 col-lg-12 mb-3 mb-sm-0"><input required class="form-control form-control-user" type="password" id="password" placeholder="Senha" name="password" id="password" style="font-size: 15.8px;"></div>
+                                </div>
+                                <div class="mb-3"></div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 col-lg-12 mb-3 mb-sm-0"><input required class="form-control form-control-user" type="password" id="confirm" placeholder="Repetir Senha" id="confirm" name="password_repeat" style="font-size: 15.8px;"></div>
+                                </div>
+                                <hr>
+                            </form>
+                            <div class="row">
+                                <div class="col"><button class="btn btn-primary border rounded-pill d-block btn-user w-100" style="font-size: 20.8px;" id="alterar">Mudar Senha</button></div>
+                            </div>
+                        </div>
+                        <div class="social-icons"><a href="https://www.instagram.com/voxcity_/" target="_blank"><i class="icon ion-social-instagram"></i></a><a href="https://www.facebook.com/voxcitytecnologia" target="_blank"><i class="icon ion-social-facebook"></i></a><a href="https://wa.me/34782300" target="_blank"><i class="icon ion-social-whatsapp"></i></a><a href="https://www.youtube.com/channel/UCj27ZSuJpMkmWPAePSF_93w" target="_blank"><i class="icon ion-social-youtube"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+
+</html>
+<script>
+    var senha = document.querySelector('#password')
+    var confirm = document.querySelector('#confirm')
+    var changeBtn = document.querySelector('#alterar')
+
+    changeBtn.addEventListener("click", e=>{
+        var nova = senha.value 
+        var confirma = confirm.value
+        if(nova.length >= 8){        
+            if(nova === confirma){
+                axios.post('/users/changePass', {nova})
+                .then(resp=>{
+                        bootbox.alert({ title:"Aviso" ,closeButton: false,message:resp.data})
+                        
+                })
+                .catch(err=>{console.log(err.response)})
+                
+            }else{
+                bootbox.alert({ title:"Aviso" ,closeButton: false,message:"Confira sua senha!"})
+
+            }
+        }else{
+                   bootbox.alert({ title:"Aviso" ,closeButton: false,message:"Sua senha precisa de no minímo 8 caracteres"})
+
+        }
+    })
+</script>

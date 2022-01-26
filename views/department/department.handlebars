@@ -1,0 +1,323 @@
+{{> menu }}
+<form method="post" action="#" id="frmDepartamento">
+<div class="container">
+  <div class="row">
+    <div class="card border-primary">
+      <div class="card-body">
+        <h4>CADASTRO DE DEPARTAMENTO</h4>
+      </div>
+            
+       <select id="department_id" class="form-select departmentSel" style="width: 300px;">
+          <option selected>Menu de departamento</option>
+          
+        </select> <input id="nome" class="form-control" type="text" placeholder="Novo Departamento" style="width: 300px;">
+         <input  id="edit-nome" class="form-control" type="text" placeholder="Editar Departamento" style="width: 300px;display: none;">
+    
+         
+      <div class="row">
+        <div class="clearfix">&nbsp</div>
+        
+        <div class="col-lg-6">
+          <input style="display: none;" type="button" class="bnt btn-primary form-control" value="Mudar Nome" id="edit-btn">
+          <input type="button" class="bnt btn-primary form-control" value="Salvar" id="btnSalvar">
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-lg-12 card">
+          <br>
+          <table id="userTable" style="width:100%;">
+                <thead>
+                    <tr>
+                        <td style="width:100%">Nome</td>
+                        <td style="width:100%">Departamento</td>
+                        <td style="width:100%" >Email</td>
+                        <td style="width:15%">Alterar Departamento</td>
+                        <td style="width:15%">Alterar Atividade</td>
+                        
+                    </tr>
+                </thead>
+                <tbody id="userTbody"></tbody>
+              </table>
+             <button id="saveAllUserDep" type="button" class="button save-btn" style="width: 30%; font:1.2em; color: white; background-color: black;">Salvar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<script src="/conf/variaveis.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  Element.prototype.show = function(){
+    this.style.display="block"
+  }
+  Element.prototype.hide = function(){
+    this.style.display="none"
+  }
+  Element.prototype.empty = function(){
+    this.innerHTML = ""
+  }
+
+  var userDepartmentSelect = document.querySelector("#department_id") 
+  var alreadyBuildDeps = false;
+
+  var editDepName = document.querySelector("#edit-nome")
+  var editDepBtn =document.querySelector("#edit-btn")
+  	var newDep =document.querySelector("#nome")
+    var saveDepName =document.querySelector("#btnSalvar")
+  function showTableUsersDeps(){ 
+    if(alreadyBuildDeps){
+        return
+    }else{
+      var opts = new Array()
+      
+      axios.get('department/depList').then(infos=>{
+        opts = infos.data.table
+            
+        opts.forEach((row,i)=>{
+          let newOption = document.createElement("option")
+          let id = row.id
+        //  console.log(id)
+          let name= row.name
+          newOption.innerHTML =name 
+          newOption.name = "option"
+          newOption.id = id
+          userDepartmentSelect.appendChild(newOption)
+        })   
+          alreadyBuildDeps = true
+      })
+    }
+  }
+
+
+  
+  function disformTable(){
+    alreadyBuildDeps = false
+    var optEl =  document.createElement('option')
+    optEl.innerHTML="Menu de departamento"
+    optEl.selected = true
+    userDepartmentSelect.empty()
+    userDepartmentSelect.appendChild(optEl)
+  }
+
+
+    var btnSaveAll= document.querySelector("#saveAllUserDep")
+    btnSaveAll.addEventListener('click',()=>{
+        var usersToSave ={}
+        usersToSave.deps = {}
+        usersToSave.act = {}
+        var selects = document.querySelectorAll(".departmentSel")
+        var selcAct = document.querySelectorAll(".activity")
+        selects.forEach(sel=>{
+            //console.log( sel.selectedOptions[0])
+            if(sel.selectedOptions[0].id){
+                var idNewDep = sel.selectedOptions[0].id
+                var idUser = sel.id
+                usersToSave.deps[idUser] = idNewDep
+            }
+        })
+        selcAct.forEach(sel=>{
+            // console.log(sel)
+            if(sel.selectedOptions[0].id){
+                var idUser =sel.selectedOptions[0].id
+                var actUser = sel.selectedOptions[0].value
+                usersToSave.act[idUser] =actUser
+            }
+        })
+        console.log(usersToSave)
+        axios.post("/department/updateAllUsers",usersToSave).then(msg=>{
+            //add modal loading
+            console.log(msg)
+            $('#userTable').DataTable().ajax.reload();
+        }).catch(err=>{
+            console.log(err.response)
+            bootbox.alert({ title:"Aviso" ,closeButton: false,message:err.response})
+        })
+    })
+
+  
+ showTableUsersDeps()
+var depRefs = []
+
+$("#btnSalvar").click(function(e){
+  if(newDep.value == ""){
+    return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"O Departamento deve ter um nome"})
+  }
+ 
+  axios.post('/department',{data:newDep.value}).then((msg)=>{
+      console.log(msg.data)
+      bootbox.alert(
+        { title:"Aviso" ,
+          closeButton: false, 
+          message:msg.data,
+          callback: function (){
+              disformTable()
+              showTableUsersDeps()
+              $('#userTable').DataTable().ajax.reload()
+              console.log('calback')
+           }
+          })
+     
+  }).catch(err=>{
+    console.log(err.response)
+  })
+})
+
+$(document).ready(function() {
+ 
+
+  const link_icone_preto  = 'icon icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center'
+  const link_icone_branco = 'icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center'
+
+  $('#nome_modulo').html('Departamentos')
+
+  $('#link_dashboard').removeClass('active')
+  
+  $('#link_departamento').removeClass('active')
+  $('#link_departamento').addClass('active')
+
+  $('#link_dashboard_icone').removeClass()
+  $('#link_dashboard_icone').addClass(link_icone_preto)
+
+  
+  $('#link_departamento_icone').removeClass()
+  $('#link_departamento_icone').addClass(link_icone_branco)
+
+
+  $("#department_id").hide()
+
+  var urlUsers =  "/department/list/"
+   
+        $(document).ready(function() {
+      
+            $('#userTable').DataTable({
+                "reload": true,
+                "processing": true,
+                "searching": true,
+                "ajax": {
+                    "url": urlUsers, //url de busca usarios pelo id da org
+                    "dataSrc": "table"
+                    
+                },
+                "columns": [
+                    { "data": "name" },//0
+                 //   { "data": "name_organization" },//1
+                 //   { "data": "master" },//2
+                //    { "data": "name_department" },//3
+                  //  { "data": "email"}//4
+                ],
+                
+                "columnDefs": [
+                     {
+                        "targets": 0, 
+                        "data": null, 
+                        "render": function ( data, type, table, meta ) {
+                            return "<p style='cursor: pointer; padding-top:10px;' title='clique aqui para editar' onclick=editUser("+table.id+")>"+table.name+"</p>"
+                        }
+                    },
+                      {
+                        "targets": 1, 
+                        "data": null, 
+                        "render": function ( data, type, table, meta ) {
+                          var nameDep = table.name_department.toString()
+                          depRefs.push({name:nameDep, id: table.department_id})
+                           return `<p style='cursor: pointer; padding-top:10px;' title='clique aqui para editar' onclick= editDep(${table.department_id})>${table.name_department}</p>`
+                        }
+                    },
+                      {
+                        "targets": 2, 
+                        "data": null, 
+                        "render": function ( data, type, table, meta ) {
+                         
+                            return "<p style='cursor: pointer; padding-top:10px;'  >"+table.email+"</p>"
+                        }
+                    },
+                    { 
+                        "targets": 3, 
+                        "data": null, 
+                        "render": function ( data, type, table, meta) {
+                            
+                            var select =$("#department_id").clone().show()
+
+                            select.id = data.id
+                            return "<select id="+data.id+" class='form-select departmentSel' style='width:200px;'>"
+                            +select.html().toString()
+                            +"</select>"
+                            
+                        
+                        }
+                        },
+                      {
+                      "targets": 4, 
+                      "data": null, 
+                      "render": function ( data, type, table, meta ) {
+                          console.log(table.active)
+                        return  `<select id="active" class="activity form-select" style="width: 100px;">
+                      
+                        <option ${ table.active == 1 ? "selected" : ""} id="${table.id}" style="">Ativo</option>
+                        <option ${ table.active == 1? "" : "selected" } id="${table.id}" style="">Desativado</option>
+                        </select>`
+                          }
+                    }
+                ],
+            })
+        });
+  })
+
+
+
+function editUser(id){
+    
+    var url = "/department/editUser/"+id
+    console.log(url)
+  
+    axios.get(url).then(resp=>{
+        console.log(resp)
+        window.location.href = 'department/editUserById'
+    
+    }).catch(err=>{
+        console.log(err.response, err.resp)
+        bootbox.alert({ title:"Aviso" ,closeButton: false,message:err})
+    })
+}
+var globalId
+function editDep(id){
+  
+  editDepBtn.show()
+  editDepName.show()
+  saveDepName.hide()
+  newDep.hide()
+  depRefs.forEach(obj=>{
+    if(obj.id == id){ 
+      editDepName.value =  obj.name
+    }
+  })
+  return globalId = id
+}
+editDepBtn.addEventListener("click", function(e){
+  var novoNome = editDepName.value
+  if(novoNome == "") return bootbox.alert({ title:"Aviso" ,closeButton: false,message:"O Departamento deve ter um nome"})
+  axios.post('/department/editDep',{dep:novoNome,id:globalId,}).then(e=>{
+    bootbox.alert({ title:"Aviso" ,closeButton: false,message:'Departamento editado'})
+    editDepBtn.hide()
+    editDepName.hide()
+    saveDepName.show()
+    newDep.show()
+    $('#userTable').DataTable().ajax.reload()
+  
+  }).catch(err=>{
+   console.log(err,err.response)
+   bootbox.alert({ title:"Aviso" ,closeButton: false,message:'Ocorreu um erro'})
+  editDepBtn.hide()
+  editDepName.hide()
+  saveDepName.show()
+  newDep.show()
+  
+  })
+  
+})
+
+  
+</script>

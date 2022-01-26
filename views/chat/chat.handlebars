@@ -1,0 +1,2014 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+<!DOCTYPE html><html class=''>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://use.typekit.net/hoy3lrg.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+
+
+<script src="https://kit.fontawesome.com/57f02d201e.js" crossorigin="anonymous"></script>
+<link rel='stylesheet' href='../assets/style.css'>
+<body>
+<input type="hidden" id="contact">
+<div id="frame">
+{{!-- CORREÇÃO BUG ATUALIZAR CONTATOS --}}
+	<div id="sidepanel">
+		<div id="profile-contacts">
+			<p id="contacts_list"
+			style="position: absolute;
+					left: 126px;
+					top: 85px;
+					cursor:pointer;
+					">
+					<button class='btn btn-warning btn-lg' id="contacts-list" style='font-size:12px; width:91px;' disabled> 
+					  <div style=''><i class="fa fa-user"></i></div>  
+    					Contatos
+					</button>
+		</div>
+		<div id="profile">
+			<p 
+			style="position: absolute;
+					right: 30px;
+					top: 85px;
+					cursor:pointer;
+					">					
+					<button class='btn btn-warning btn-lg' id="groups" style='font-size:12px; width:91px;'> 
+					  <div style=''><i class="fa fa-users"></i></div>  
+    					Grupos
+					</button>
+
+				<div class='wrap'>
+				<img id='profile-img' src='' class='online' alt='' />
+				<p id='profile-name'></p>
+				<div id='status-options'>
+					<ul>
+						<li id='status-online'  data-status='online' class='active'><span class='status-circle'></span> <p>Online</p></li>
+						<li id='status-away'    data-status='away'><span class='status-circle'></span> <p>Em reunião</p></li>
+						<li id='status-busy'    data-status='busy'><span class='status-circle'></span> <p>Ocupado</p></li>
+						<li id='status-offline' data-status='offline'><span class='status-circle'></span> <p>Offline</p></li>
+					</ul>
+				</div>
+				
+			</div>
+			
+			
+		</div>
+		<br><br><br>
+		<div id="search">
+			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+			<input type="text" placeholder="Busca contatos..."      id="busca_contatos" />
+			<input type="text" placeholder="Busca departamentos..." id="busca_departamentos" style="display:none"/>
+		</div>
+		<div id="contacts" style="overflow:auto;max-height: 75%">
+			
+		</div>
+		<div id="bottom-bar">
+			<!-- <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button> -->
+			<button id="settings" ><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Configurações</span></button>
+		</div>
+	</div>
+	
+
+	<div class="content">
+		<div style="display:hide;position:fixed;bottom:0;z-index:99999;background-color:#c1e2f0;width:100%;height:45px;color:white" class="panel-status-connect">
+			<center style="margin-left:-260px;padding-top:10px">
+				<i class="fa fa-wifi" style="color:#a0001c">  
+					<h6 id="statusConection" class="statusConection" 
+							style="background-color:#c1e2f0;color:rgb(0, 0, 0);font-family:serif;font-size:13px">
+					</h6>					
+				</i>						
+			</center>
+		</div>
+	
+
+		<div id="contact-profile-main" class="contact-profile"> 
+			<div  id="contact-expand" style="cursor: pointer;">
+			
+			<img src="" alt="" id="contact-profile-img"/>
+			<p id="contact-profile-name"></p>
+
+			<div id="display-contact-info" class="card" style="display: none; ">
+			
+				<h2 id="p-bio" class="p-contact">
+						
+				</h2>
+			
+			
+				<h2 id="p-email" class="p-contact">
+				
+				</h2>
+				
+			
+				<h2 id="p-dep" class="p-contact">
+				
+				</h2>
+			
+				<h2 id="p-phone" class="p-contact">
+						
+				</h2>				
+				<h2 id="p-extension" class="p-contact">
+						
+				</h2>
+			
+			
+
+			</div>
+			
+			<input type="hidden" id="contact-profile-socket_id">
+			<input type="hidden" id="contact-profile-destinatario_id">
+			<input type="hidden" id="contact-profile-email">
+			<input type="hidden" id="contact-profile-bio">
+			<input type="hidden" id="contact-profile-extension">
+			
+			<input type="hidden" id="contact-profile-departament">
+			<input type="hidden" id="contact-profile-phone">
+			
+			</div>
+
+			<div class="social-media">
+				<input type="hidden" id="emailContact">
+				<input type="hidden" id="phoneVoxSip">
+
+				<i title='email' class="fas fa-envelope emailContact" aria-hidden="true"></i>
+				<i title='celular' class="fas fa-mobile-alt voxsipPhone"></i>
+				<i title='ramal'   class="fas fa-phone voxsip" style="color:rgb(2, 150, 2)" id="social-media-phone"></i>
+				<i title='logout'  class="fas fa-sign-out-alt" id="logout"></i>
+				
+			</div>
+			<br>
+			<div id="contact-list"class="card contact-list" ></div>
+		</div>
+
+<center>
+
+<audio id="alert-audio" src="/audio_alert.mp3"></adudio>
+<div class="card card-image" style="position:fixed">
+  
+</div>
+
+
+</center>
+	<center>
+		<img src="images/loading.gif" width="50px" style="position: fixed;top:50%" id="loadingGif">
+	</center>
+
+	<div class="messages" id="messages" style="display:flex;flex-direction:column-reverse">
+		<ul id="conteudo-message">
+		</ul>
+	</div>
+	<p id="status" style="position: fixed; top:41px; left:400px; color:#2b9348;"></p>
+
+	<div id="gravacao" style='display:none'>
+		<div class="row">
+			<div class="col-lg-6 col-sm-6">
+				<input type="button" class="btn btn-info form-control stop" value="ENVIAR AÚDIO" >
+			</div>
+
+			<div class="col-lg-6 col-sm-6">
+				<input type="button" class="btn btn-danger form-control cancel" value="CANCELAR AÚDIO" >
+			</div>
+		</div>
+	</div>
+
+	<div id="message-input-div" class="message-input" style="display:none;position:relative" >
+		<div class="wrap">
+			<textarea type="text" placeholder="Sua mensagem..." class="mensagem break" ></textarea>
+			<input type="file" name="arquivo" id="arquivo" style="display:none" >
+			<button id="enviar-btn" class="submit enviar"><i class="fa fa-paper-plane" aria-hidden="true" ></i></button>
+			<i class="fas fa-paperclip attachment clip" aria-hidden="true" "Anexo"></i>
+			<i class="far fa-smile smile smile" aria-hidden="true" title="Emoji" ></i>
+			
+			<i class="fa fa-microphone microphone record" aria-hidden="true" "Grave Aúdio" ></i>
+		</div>
+    </div> 
+	</div>
+	<button type="button" class="btn btn-light" id="back-button" style="margin:24px; display: none;">
+		<i class="fa fa-arrow-left "></i>
+		<span>Voltar</span>
+	</button>
+		<button type="button" class="btn btn-light" id="edit-user-btn" style="margin:24px; display: none; float: right;">
+		<i class="fa fa-pen "></i>
+		<span>Editar</span>
+	</button>
+	</button>
+		<button type="button" class="btn btn-light" id="save-user-btn" style="margin:24px; display: none; float: right;">
+		<i class="fa fa-pen "></i>
+		<span>Salvar</span>
+	</button>
+	<div style="display: none;"id="change-pass" class="container">
+		<a style=" position: relative; left:110px;"href="/chat/changePass">Alterar Senha</a>
+	
+	</div>
+	<form id="update-user-form" class="form-group container"action="" method="" style="margin:15px; margin-left:0px;padding:15px; text-align: center;">
+		
+		<div style="text-align:center;"class="mb-3">
+			<label style="color:white;cursor:pointer;" for="change-pic-input"> Mudar Foto de Perfil</label>
+			<input style="display:none;" type="file" name="change-pic-input" id="change-pic-input">
+		</div>
+		<br>
+		<div class="mb-3">
+			<label style="color:white;" for='extension'><i style="color:white;" class='form-label fas fa-phone-alt fa-fw' ></i>Ramal</label>
+			<input style="text-align: center"  class="form-control" name='extension' type='text' value='' id='profile-extension' disabled />
+		</div>
+
+		 <div class="mb-3">
+			<label style="color:white;" for='phone'><i style="color:white;" class='form-label fas fa-mobile-alt fa-fw' ></i>Telefone</label>
+			<input style="text-align: center"  class="form-control" name='phone' type='text' value='' id='profile-phone' disabled />
+		</div>
+		<!--
+		<div class="mb-3">
+			<label style="color:white;" for='email'><i style="color:white;" class='form-label fas fa-envelope fa-fw' ></i></label>
+			<input style="text-align: center"  class="form-control" name='email' type='text' value='' id='profile-email' disabled />
+		</div>
+	    -->
+		<div class="mb-3">
+			<label style="color:white;" for='bio'><i style="color:white;" class='form-label fas fa-layer-group fa-fw' ></i>Bio</label>
+			<input style="text-align: center"  class="form-control" name='bio' type='text' value='' id='profile-bio' disabled />
+		</div>
+
+		
+	</form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/emoji-button@latest/dist/index.js"></script>
+<script src="../blueimp-md5/md5.min.js"></script>
+<script src="../socket-stream/socket.io-stream.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+
+<script src="/conf/variaveis.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js" integrity="sha512-K3MtzSFJk6kgiFxCXXQKH6BbyBrTkTDf7E6kFh3xBZ2QNMtb6cU/RstENgQkdSLkAZeH/zAtzkxJOTTd8BqpHQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+	.change-pic{
+		
+		width: 80px;
+		border-radius: 50%;
+		padding: 3px;
+		border: 2px solid;
+		text-align: center;
+		cursor: pointer;
+	}
+	.divPic{
+		padding: 20px;
+		
+		padding-bottom: 0px;
+		text-align: center;
+	}
+	#enviar-btn{
+		position: relative;
+		bottom: 0;
+		right: 0;
+	}
+	.show-contact{
+		width: 90%;
+		position: absolute;
+		top: 100px;
+		left:8px;
+		text-align: center;
+		transition: 300ms;
+	}
+	.p-contact{
+		position: relative;
+		left: 0;
+		margin: 10px;
+		text-align: left;
+		transition: 400ms;
+
+	}
+	.user-listed{
+		margin-left: 20px;
+		
+		margin-top: 10px;
+	}
+	.contact-list{
+		overflow: auto;
+		max-height: 100%;
+	}
+	
+</style>
+<script>
+	
+	//limite de upload
+	var uploadLimit
+	axios.get('/usuarios/limitUpload')
+	.then(resp=>{
+		
+		return uploadLimit = resp.data.limit
+	})
+	.catch(err=>{console.log(err.response)})
+
+
+
+
+	var logout = document.querySelector("#logout")
+	logout.addEventListener("click", e=>{
+		axios.get("/login/logout").then(e=>{
+			window.location.href = '/'
+		})
+		.catch(err=>{
+			console.log(err.response)
+			})
+	})
+
+	String.prototype.URLToAnchors = function() {
+		if(this.includes('http') || this.includes('https')){
+			return this.replace(/(http(s)?:\/\/[a-zA-Z0-9_.\/-]+)|(www(\d)?[a-zA-Z0-9_.\/-]+)/g, '<a target="blank" href="$1">$1$3</a>')
+		}else{
+			return this.replace(/(http(s)?:\/\/[a-zA-Z0-9_.\/-]+)|(www(\d)?[a-zA-Z0-9_.\/-]+)/g, '<a target="blank" href="//$3">$1$3</a>')			
+		}
+	}
+	
+	
+	String.prototype.breakLines = function(){
+	
+		return this.replace(/(\r\n|\n|\r)/gm, "<br>")
+	
+	}
+	Element.prototype.empty = function (){
+		return this.innerHTML = ""
+	}
+
+
+	function espera(n){
+    return new Promise(function(resolve){
+        setTimeout(resolve,n*1000);
+    });
+	}
+	var novaImg;
+	//VISUALIZACAO DE CONTATOS 
+	var contactClick   = document.querySelector("#contact-expand")
+	var contactProfile = document.querySelector("#contact-profile-main")
+	var messageInp     = document.querySelector("#message-input-div")
+
+	var contactEmail   = document.querySelector("#contact-profile-email")
+	var contactBio     = document.querySelector("#contact-profile-bio")
+	var contactDep     = document.querySelector("#contact-profile-departament")
+	
+	var contactPhone     = document.querySelector("#contact-profile-phone")
+	
+	var contactExtension     = document.querySelector("#contact-profile-extension")
+	var displayContact =document.querySelector("#display-contact-info")
+
+	var pBio  =document.querySelector("#p-bio")
+	var pEmail=document.querySelector("#p-email")
+	var pExtension = document.querySelector("#p-extension")
+	var pPhone = document.querySelector("#p-phone")
+	var pDep = document.querySelector("#p-dep")
+
+	var contactList = document.querySelector("#contact-list")
+	contactClick.addEventListener("click",e=>{
+		
+		var grupo = localStorage.getItem('dep')
+		if(grupo  == 0){
+			if(!contactProfile.classList.contains("exapanded")){
+				contactProfile.style.transition = "300ms"
+				contactProfile.style.height = "100%" //voltar p/ 60px
+				contactProfile.style.position= "absolute"
+				contactProfile.style.zIndex = "200"
+
+				pBio.innerHTML  = 'E-mail :  '+contactEmail.value
+				pEmail.innerHTML= 'Bio: '+contactBio.value
+				pExtension.innerHTML= 'Ramal :  '+contactExtension.value
+				pDep.innerHTML = 'Departamento : '+contactDep.value
+				pPhone.innerHTML = 'Telefone : '+contactPhone.value
+				displayContact.style.display ="flex"	
+				displayContact.classList.add("show-contact")
+			
+			
+				contactProfile.classList.add("exapanded")	
+				}
+			else{
+				revertExpand()
+				contactProfile.classList.remove("exapanded")
+				}
+		}else{
+			if(!contactProfile.classList.contains("exapanded")){
+				var usersList= []
+				var list =  localStorage.getItem('list')
+				var idDep = localStorage.getItem('id')
+				list = list.split('}')
+				list.forEach(user=>{
+					user = user+'}'				
+					if(user.charAt(0) == ","){
+						user = user.slice(1)
+					}
+					if(user.charAt(0) == "}"){
+						user = user.slice(1)
+					}
+					if(!user== "") usersList.push(JSON.parse(user))
+				})
+				usersList.forEach(user=>{
+				//	console.log(user)
+					if(user.department_id == idDep){
+						var newEl = document.createElement('h4')
+						newEl.classList.add("user-listed")
+						newEl.innerHTML = user.name
+						newEl.style.cursor = "pointer"
+						newEl.addEventListener("click",(e)=>{
+							var id = user.id 
+							openContactSelectByGroup(id)
+						})
+						contactList.appendChild(newEl)
+							
+					}
+				})
+				contactProfile.style.transition = "300ms"
+				contactProfile.style.height = "100%" //voltar p/ 60px
+				contactProfile.style.position= "absolute"
+				contactProfile.style.zIndex = "200"
+				contactProfile.classList.add("exapanded")
+			}
+			else{
+				revertExpand()
+				contactProfile.classList.remove("exapanded")
+			}
+		}
+	})
+
+
+
+	function openContactSelectByGroup(id){
+		//DIRECIONAR USUARIO PARA O CONTATO ID
+		document.querySelector("#contacts-list").click()
+		
+		id = ('wrap'+id).toString()
+		openConc(id)
+	}
+
+	async function openConc(id){
+		await espera(1);
+		document.getElementById(id).click()
+		
+	}
+
+	function revertExpand(){
+		contactList.empty()
+		contactProfile.style.height = "60px" //voltar p/ 60px
+		contactProfile.style.position = "static"
+		contactProfile.style.z_index = " 1"
+
+		displayContact.classList.remove("show-contact")
+
+		displayContact.style.display= "none"
+		
+	
+	
+	}
+
+//--------------------------------------------------------------------------------------------------------------------
+	//EDIÇÃO DE USUÁRIO
+	var btnBackFromConfig = $("#back-button").clone().hide()
+	var menuConfig = $("#sidepanel").clone().empty().hide()
+	var updateUserForm = $("#update-user-form").hide()
+	var pic = document.querySelector("#profile-img")
+	var divPic = document.createElement('div')
+	var editUserBtn = $("#edit-user-btn")
+	var saveUserBtn = $("#save-user-btn")
+	var linkChangePassword = $("#change-pass")
+	menuConfig.hide()
+	
+
+	
+	$("#frame").append(menuConfig)
+
+	$("#settings").click((e)=>{
+		
+		clonePic = pic.cloneNode()
+		//clonePic.attr('id','pic-change')
+		divPic.classList.add('divPic')
+		clonePic.classList.add('change-pic')
+		
+		divPic.appendChild(clonePic)
+		menuConfig.append(divPic)
+
+		menuConfig.append(updateUserForm)
+		menuConfig.append(linkChangePassword)
+		menuConfig.append(btnBackFromConfig)
+		menuConfig.append(editUserBtn)
+		menuConfig.append(saveUserBtn)
+
+		linkChangePassword.show()
+		editUserBtn.show()
+		updateUserForm.show()
+		menuConfig.show()
+		updateUserForm.show()
+		btnBackFromConfig.show()
+		$("#sidepanel").hide()
+		menuConfig.show()
+		
+	})
+	btnBackFromConfig.click(e=>{
+		// $("#sidepanel").append(pic)
+		$("#sidepanel").show()
+		clonePic.remove()
+		divPic.remove()
+		menuConfig.hide()
+		updateUserForm.hide()
+	})
+
+	divPic.addEventListener('click',e=>{
+		//console.log(e)
+		$("#change-pic-input").click()
+	})
+	
+	$("#change-pic-input").change(function(e){
+		const [arquivo] = e.target.files
+		
+    	$('.change-pic').attr('src',URL.createObjectURL(arquivo))
+		editUserBtn.click()
+	})
+
+	editUserBtn.click(function(){
+		
+		saveUserBtn.show()
+		editUserBtn.hide()
+		var formEl = [...document.querySelector("#update-user-form")]
+		formEl.forEach(input=>{
+			input.disabled = false
+		})
+	})
+	saveUserBtn.click(function(){
+		
+		var formEl = document.querySelector("#update-user-form")
+		var formData = new FormData(formEl);
+		saveUserBtn.hide()
+		editUserBtn.show()
+		$.ajax({
+			processData: false,	
+			contentType: false,
+			timeout:1200000,
+			url: '/users/edit',
+			method: 'POST',
+			data: formData,
+			success: (data)=>{
+				$('#profile-img').attr('src', data)
+				return novaImg = data
+			},
+			error: (err)=>{
+				console.log('erro'+err.response,err)
+				//return 
+			}
+		});   
+		
+	})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const socket = io(websocket); 
+
+
+// VERIFICA SE CONEXÃO ESTA ONLINE
+$('.panel-status-connect').hide()
+
+async function updateState(){
+	
+	let condition = navigator.onLine
+	
+	if(condition == false ) {
+		$('#statusConection').html('Você está Offline')
+		$('.panel-status-connect').show()
+	}else{
+		await espera(10)
+		 $('.panel-status-connect').hide() 
+	}
+}
+
+window.addEventListener('online',updateState)
+window.addEventListener('offline',updateState)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const record = document.querySelector('.record');
+const stop   = document.querySelector('.stop');
+const cancel = document.querySelector('.cancel');
+
+
+if (navigator.mediaDevices.getUserMedia) {
+	
+  const constraints = { audio: true };
+  let chunks = [];
+
+  let onSuccess = function(stream) {
+    const mediaRecorder = new MediaRecorder(stream);
+
+    record.onclick = function() {
+	  	record_status = 'recorder'
+    	
+    	$('#contacts').hide()
+
+      mediaRecorder.start();
+      $('#gravacao').show()
+      
+    }
+
+    cancel.onclick = function() {
+		record_status = 'canceled'
+	    mediaRecorder.stop();
+    	$('#gravacao').hide()
+      
+    }
+
+    stop.onclick = function() {
+      
+      mediaRecorder.stop();
+      $('#gravacao').hide()
+
+    }
+    mediaRecorder.onstop = function(e) {
+	    	
+
+    	$('#contacts').show()
+
+    	if(record_status != 'recorder'){ return false }
+
+	      const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+	      chunks = [];
+	      const audioURL = window.URL.createObjectURL(blob);
+
+	      $('#audio_record').prop('src',audioURL)
+
+	      file = blob
+		
+		    var stream = ss.createStream();
+
+				id = "{{id}}"
+
+				var nameMp3 = 'audio.mp3';
+				var data_upload = moment().format('DDMMYYYY')
+				var hora_upload = moment().format('HHmmss')
+
+				if(file.size > (1000024*uploadLimit)){
+					bootbox.alert({ title:"Aviso" ,closeButton: false,message:'ARQUIVO NÃO PODE SER MAIOR QUE 2 MB'})
+					return false
+				}
+
+				ss(socket).emit('file', stream, {size: file.size, name:nameMp3, id:id, data_upload:data_upload, hora_upload:hora_upload});
+
+
+	    	ss.createBlobReadStream(file).pipe(stream);
+	
+				$('#conteudo-message').append(
+					"<li class='replies'>"+
+							"<audio controls src='"+audioURL+"' style='float:right'> </audio>"+
+					"</li>"	
+				)
+			
+			var opcao = localStorage.getItem('opcao')
+			switch(opcao){
+				case '0':
+					remetente_id    = '{{id}}' 
+	  			destinatario_id = $('#contact-profile-destinatario_id').val()
+			    email           = $('#profile-email').val()
+					break;
+				case '1':
+					remetente_id    = '{{id}}' 
+	  			destinatario_id = "D_"+$('#contact-profile-destinatario_id').val()
+			
+				break;
+			}
+
+			
+			arquivo = id+'-'+data_upload+'-'+hora_upload+'-'+nameMp3;
+			
+			message         = ''	
+			
+			var opcao = localStorage.getItem('opcao')
+			switch(opcao){
+				case '0':
+				socket.emit('verifica socket id', {remetente:remetente_id,destinatario_id:destinatario_id}, (response) => {
+					if(response.msgAllow == true){
+						$('#contact-profile-socket_id').val(response.socket_id)
+						socket_id       = $('#contact-profile-socket_id').val()
+
+						socket.emit("enviar mensagem privada",{remetente_id:remetente_id,destinatario_id:destinatario_id,mensagem:message,socket_id:socket_id,email:email,arquivo:arquivo}, (response) => {
+						//	console.log(response)
+						})
+					}else{
+						$('#conteudo-message').append("<li class='replies'><span style='color:red'>"+response.txtMsg+"</span></li>")
+					}
+				})
+				break;
+				case '1':
+					room       = $('#contact-profile-destinatario_id').val()
+					 
+					socket.emit("enviar mensagem grupo",{nome_remetente:'{{name}}',remetente_id:remetente_id,destinatario_id:destinatario_id,mensagem:message,arquivo:arquivo,room:room}, (response) => {
+					//	console.log(response)
+					})		
+				break;
+			}
+
+	    }
+
+	    mediaRecorder.ondataavailable = function(e) {
+	      chunks.push(e.data);
+	    }
+	}
+
+  let onError = function(err) {
+    console.log('Seguinte erro ocorreu: ' + err);
+  }
+
+  navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
+
+} else {
+   console.log('getUserMedia seu navegador não suporta!');
+}
+
+
+
+$(document).ready(function() {
+  $('#loadingGif').hide()
+
+  if(localStorage.getItem('lastMessageGroup') === null){
+    localStorage.setItem('lastMessageGroup','') 
+  }
+
+  socket.on('saiu', (response) => {
+  	//console.log(response)
+  	$('#status'+response.contato_id).attr('class','offline')
+  })
+
+  socket.on('novo status', (status) => {
+	novo_status = status.status
+	$('#status'+status.usuario_id).attr('class',novo_status)
+  })
+
+  img = 0;
+  $('#arquivo').change(function(e) {
+
+  id = "{{id}}"
+
+  var data_upload = moment().format('DDMMYYYY')
+  var hora_upload = moment().format('HHmmss')
+
+  var file = e.target.files[0];
+
+  var stream = ss.createStream();
+
+	if(file.size >  (1000024*uploadLimit)){
+		bootbox.alert({ title:"Aviso" ,closeButton: false,message:'ARQUIVO NÃO PODE SER MAIOR QUE 1 MB'})
+		return false
+	}
+
+    // UPLOAD ARQUIVO PARA O SERVIDOR
+
+	ss(socket).emit('file', stream, {size: file.size, name:file.name, id:id, data_upload:data_upload, hora_upload:hora_upload});
+
+
+  	ss.createBlobReadStream(file).pipe(stream);
+
+
+	var blobStream = ss.createBlobReadStream(file);
+	var size = 0;
+
+	var iTamanho = file.size;
+
+	var filename = file.name
+	var iTam = filename.length
+
+	var extension = filename.substr(-3,iTam)
+
+
+
+	if(
+		extension.toLowerCase() == 'jpg' || 
+		extension.toLowerCase() == 'bmp' ||
+		extension.toLowerCase() == 'gif' ||
+		extension.toLowerCase() == 'png' &&
+		extension.toLowerCase() != 'mp3' 
+		
+	){
+		$('#conteudo-message').append(
+			"<li class='replies'>"+
+					"<img src='' alt='' />"+
+				"<p>Anexo <span id='percentual"+img+"'>- </p>"+
+			"</li>"	
+		)
+
+		$('#conteudo-message').append(
+				"<p>"+
+				"<img "+
+				"src='"+window.URL.createObjectURL(this.files[0])+"' "+
+				"width='150px' style='position:relative;float:right'> "
+		)
+	}else{
+		$('#conteudo-message').append(
+			"<li class='replies'>"+
+				"<p>Anexo <span id='percentual"+img+"'> - "+
+			"</li>"+
+			"<li class='replies'>"+
+				"<p><a href='"+window.URL.createObjectURL(this.files[0])+"'>"+filename+"</a>"+	
+			"</li>"
+
+		)
+	}
+
+	blobStream.on('data', function(chunk) {
+		size += chunk.length; 
+	
+		//$('#percentual'+img+'').html(Math.floor(size / file.size * 100)+'%'+' - '+moment().format('HH:mm')); 
+	
+	});
+
+	
+	blobStream.on('end',function(){
+		
+		img++
+
+		arquivo = id+'-'+data_upload+'-'+hora_upload+'-'+file.name
+		remetente_id    = contato_id
+		destinatario_id = $('#contact-profile-destinatario_id').val()
+		email           = $('#profile-email').val()
+		arquivo         = arquivo
+		message         = ''	
+
+		var opcao = localStorage.getItem('opcao')
+		switch(opcao){
+			case '0':
+			socket.emit('verifica socket id', {remetente:remetente_id,destinatario_id:destinatario_id}, (response) => {
+				if(response.msgAllow == true){
+					$('#contact-profile-socket_id').val(response.socket_id)
+					socket_id       = $('#contact-profile-socket_id').val()
+
+					socket.emit("enviar mensagem privada",{remetente_id:remetente_id,destinatario_id:destinatario_id,mensagem:message,socket_id:socket_id,email:email,arquivo:arquivo}, (response) => {
+						//console.log(response)
+					})
+				}else{
+					$('#conteudo-message').append("<li class='replies'><span style='color:red'>"+response.txtMsg+"</span></li>")
+				}
+
+			})
+			break;
+			case '1':
+				// ENVIANDO ANEXO PARA O GRUPO
+				room = $('#contact-profile-destinatario_id').val()
+				
+				socket.emit("enviar mensagem grupo",{arquivo:arquivo,remetente_id:remetente_id,room:room,nome_remetente:'{{name}}'}, (response) => {
+
+					//console.log(response)
+
+				})
+			break;
+		}
+
+
+	})		
+
+  	
+    $("#arquivo").val(null);
+	
+}); 
+
+// MUDA STATUS DO USUARIO
+
+$('#profile-img').click(function(){
+	$('.message-input').hide()
+})
+
+$('#status-online').click(function(){
+	
+	status = $('#status-online').data('status')
+	socket.emit("muda status",{contato_id:contato_id,status:status},(response) => {
+				
+	});
+
+})
+$('#status-away').click(function(){
+	status = $('#status-away').data('status')
+	socket.emit("muda status",{contato_id:contato_id,status:status},(response) => {
+ 		
+	});
+})
+$('#status-busy').click(function(){
+	status = $('#status-busy').data('status')
+	socket.emit("muda status",{contato_id:contato_id,status:status},(response) => {
+  
+	});
+})
+$('#status-offline').click(function(){
+	status = $('#status-offline').data('status')
+	socket.emit("muda status",{contato_id:contato_id,status:status},(response) => {
+ 
+	});
+})
+
+//////
+let statusConection = $('#statusConection').html()
+
+$('.mensagem').keypress(function(){
+	var opcao = localStorage.getItem('opcao')
+	nameRoom  = $('#contact-profile-destinatario_id').val()
+	socket_id = $('#contact-profile-socket_id').val()
+	var opcao = localStorage.getItem('opcao')
+	switch(opcao){
+		case '0':
+			socket.emit("digitando",{socket_id:socket_id,id:'{{id}}',name:'{{name}}',opcao:opcao})
+		break;
+		case '1':
+			socket.emit("digitando",{socket_id:socket_id,id:'{{id}}',name:'{{name}}',nameRoom:nameRoom,opcao:opcao})
+		break;
+	}
+})
+socket.on('mostra usuario digitando',(msg) => {
+	var opcao = localStorage.getItem('opcao')
+	switch(opcao){
+		case '0':
+		if(msg.id == $('#contact-profile-destinatario_id').val() && opcao == 0){
+			$('#status').html(msg.msg)
+			setTimeout(statusClear, 3000);
+			function statusClear(){
+				$('#status').empty()
+			}
+		}
+
+		break;
+		case '1':
+		if(msg.nameRoom == $('#contact-profile-destinatario_id').val() && opcao == 1){
+			$('#status').html(msg.msg)
+			setTimeout(statusClear, 3000);
+			function statusClear(){
+				$('#status').empty()
+			}
+		}
+		
+		break;
+
+	}
+})
+//////
+
+///////////////////////////////////////////////////
+//BUSCA DEPARTAMENTOS
+$('#busca_departamentos').keyup(function(){
+	$('#contacts').empty()	
+
+	for(i = 0 ; i <= departList.length-1 ; i++)	{
+		searchStr = $('#busca_departamentos').val()
+		iSearchStr = departList[i].name.toLowerCase().indexOf(searchStr.toLowerCase())
+
+		if(iSearchStr >= 0){
+			$('#contacts').append(
+							"<ul onclick='localizaUsuario("+departList[i].id+")'>"+
+								"<li class='contact contact-active'> "+
+									"<div class='wrap'>"+
+										"<img src='images/grupo.png'/>"+
+										"<div class='meta'>"+
+											"<p class='name'>"+departList[i].name+"</p>"+
+											"<p class='preview' ></p>"+
+											"</p>"+
+										"</div>"+
+									"</div>"+
+									"<span class='badge badge-pill badge-danger ' id='badgeGroup"+departList[i].id+"'></span>"+
+								"</li>"+
+							"</ul>"
+			)	
+		}
+	}
+})
+
+// COPIA COLA IMAGEM 
+document.addEventListener('paste', e => {
+	image = e.clipboardData.items[0].getAsFile()
+	var reader = new FileReader()
+		reader.onload = function(){
+		// UPLOAD ARQUIVO PARA O SERVIDOR
+		var data_upload = moment().format('DDMMYYYY')
+		var hora_upload = moment().format('HHmmss')
+
+ 	    var file = image;
+	
+
+	    var stream = ss.createStream();
+
+		ss(socket).emit('file', stream, {size: file.size, name:file.name, id:id, data_upload:data_upload, hora_upload:hora_upload});
+		ss.createBlobReadStream(file).pipe(stream);
+	
+		var blobStream = ss.createBlobReadStream(file);
+		var size = 0;
+
+		var iTamanho = file.size;
+
+		var filename = file.name
+		var iTam = filename.length
+
+		var extension = filename.substr(-3,iTam)
+
+		$('#conteudo-message').append(
+			"<img src="+reader.result+" class='img-enviada'>"
+		)
+		
+		var opcao = localStorage.getItem('opcao')
+
+		switch(opcao){
+			case '0':
+				room = '0'
+			break;
+			case '1':
+				room = $('#contact-profile-destinatario_id').val()
+			break;
+		}		
+		$(".message-input textarea").val(file.name)
+	    newMessage(minhaFoto,room,'copy-paste',id+'-'+data_upload+'-'+hora_upload+'-'+file.name);
+
+    	return false;
+	}
+	reader.readAsDataURL(image);
+
+})
+
+///////////////////////////////////////////////////
+//BUSCA CONTATOS
+$('#busca_contatos').keyup(function(){
+	$('#contacts').empty()
+ 		
+	socket.on('novo status', (status) => {
+ 		novo_status = status.status
+		$('#status'+status.usuario_id).attr('class',novo_status)
+ 	})
+	busca = $('#busca_contatos').val()
+	destinatario_id = $('#contact-profile-destinatario_id').val()
+	destinatario_id = "{{id}}"
+/// BUSCA DE CONTATOS NOVA 
+
+	$('#busca_contatos').val()
+ 
+	for(i = 0 ; i <= usersList.length-1 ; i++)	{
+		
+		searchStr = $('#busca_contatos').val()
+		iSearchStr = usersList[i].name.toLowerCase().indexOf(searchStr.toLowerCase())
+		
+		if(iSearchStr >= 0){
+			var pic =usersList[i].picture
+			gravatar  = pic ? pic :"https://secure.gravatar.com/avatar/"+md5(usersList[i].email);
+ 			id        = usersList[i].id;
+			iMensagemRecebida = usersList[i].iMensagemRecebida
+			if(iMensagemRecebida == '0'){ iMensagemRecebida = ''}
+			
+			if(usersList[i].id != "{{id}}" ){ 
+			$('#contacts').append(
+								"<ul onclick='localizaUsuario("+id+")'>"+
+									"<li class='contact contact-active"+id+"'> "+
+										"<div class='wrap'>"+
+											"<span id='status"+id+"' class='contact-status "+usersList[i].status+"'></span>"+
+											"<img src='"+gravatar+"'/>"+
+											"<div class='meta'>"+
+												"<p class='name'>"+usersList[i].name+"</p>"+
+												"<p class='preview' ></p>"+
+												"</p>"+
+											"</div>"+
+										"</div>"+
+										"<span class='badge badge-pill badge-danger' id='badge"+id+"'>"+iMensagemRecebida+"</span>"+
+									"</li>"+
+								"</ul>"
+				)
+			}
+ 			
+		}
+	}
+/////////////////////////////////////////////////////////////////////
+})
+
+
+
+$('.clip').click(function(){
+	$('#arquivo').click()
+})
+contact_id = "{{id}}"
+
+var input = document.querySelector('.mensagem');
+const picker = new EmojiButton({
+    position: "bottom"
+    
+})
+
+picker.on('emoji', function(emoji){
+    input.value += emoji;
+})
+
+$('.smile').click(function(){
+    picker.pickerVisible ? picker.hidePicker() : picker.showPicker(input);
+})
+
+
+$("#profile-img").click(function() {
+	$("#status-options").toggleClass("active");
+});
+
+
+$("#status-options ul li").click(function() {
+	$("#profile-img").removeClass();
+	$("#status-online").removeClass("active");
+	$("#status-away").removeClass("active");
+	$("#status-busy").removeClass("active");
+	$("#status-offline").removeClass("active");
+	$(this).addClass("active");
+	
+	if($("#status-online").hasClass("active")) {
+		$("#profile-img").addClass("online");
+	} else if ($("#status-away").hasClass("active")) {
+		$("#profile-img").addClass("away");
+	} else if ($("#status-busy").hasClass("active")) {
+		$("#profile-img").addClass("busy");
+	} else if ($("#status-offline").hasClass("active")) {
+		$("#profile-img").addClass("offline");
+	} else {
+		$("#profile-img").removeClass();
+	};
+	
+	$("#status-options").removeClass("active");
+
+});
+
+
+// MENSAGEM ENVIADA
+function newMessage(minhaFoto,room,paste,img) {
+	let statusConection = $('#statusConection').html()
+
+	
+	if(paste == 'copy-paste'){
+		arquivo=img
+	}else{
+		arquivo = ''   	
+	}
+
+	
+ 	message = $(".message-input textarea").val();
+
+	if($.trim(message) == '') {
+		return false;
+	}
+		
+	$('<li class="replies"><img src="'+minhaFoto+'" alt="" id="replies-img" /><p>' + message.URLToAnchors().breakLines() + '<span id="dataHora"> - '+moment().format('HH:mm')+'</span></p></li>').appendTo($('.messages ul'));
+	$('.message-input textarea').val(null);
+	$('.contact.active .preview').html('<span>Você: </span>' + message);
+ 
+	remetente_id    = contato_id
+	destinatario_id = $('#contact-profile-destinatario_id').val()
+	email           = $('#profile-email').val()
+	
+	// ENVIA MENSAGEM PRIVADA SEM ANEXO E SEM AUDIO 
+		
+		var opcao = localStorage.getItem('opcao')
+		switch(opcao){
+			case '0':
+			socket.emit('verifica socket id', {remetente:remetente_id,destinatario_id:destinatario_id}, (response) => {
+
+				if(response.msgAllow == true){
+					$('#contact-profile-socket_id').val(response.socket_id)
+					socket_id       = $('#contact-profile-socket_id').val()
+
+					socket.emit("enviar mensagem privada",{remetente_id:remetente_id,destinatario_id:destinatario_id,mensagem:message,socket_id:socket_id,email:email,arquivo:arquivo}, (response) => {
+						//console.log(response)
+					})
+				}else{
+					$('#conteudo-message').append("<li class='replies'><span style='color:red'>"+response.txtMsg+"</span></li>")
+				}
+			})
+			break;
+			case '1':
+				room = $('#contact-profile-destinatario_id').val()
+				socket.emit("enviar mensagem grupo",{mensagem:message,room:room,remetente_id:remetente_id,nome_remetente:'{{name}}',arquivo:arquivo}, (response) => {
+				
+				})
+			break;
+		}
+
+	////////
+};
+
+
+$('.submit').click(function() {
+	//console.log(minhaFoto)
+	minhaFoto //= $('#profile-img').attr('src') //ver
+	
+	newMessage(minhaFoto,room);
+});
+
+$(window).on('keydown', function(e) {
+
+  
+	if(e.shiftKey == true){
+		if (e.which == 13) {
+		//console.log("shift enter")	
+		var novoEspaço = $(".mensagem").val()
+		 $(".mensagem").val(novoEspaço+'\r\n')
+				return false
+	
+		}
+	
+	}
+  	if ( e.which == 13) {
+		minhaFoto = $('#profile-img').attr('src')
+		
+		var opcao = localStorage.getItem('opcao')
+
+		switch(opcao){
+			case '0':
+				room = '0'
+			break;
+		}		
+	    newMessage(minhaFoto,room);
+    	return false;
+  }
+});
+///
+//CONECTAR - ATUALIZA O SOCKET ID DO CONTATO
+var contato_id = "{{id}}"
+var loadDepart = false
+
+enterRoom()
+
+function enterRoom(){
+	
+
+	socket.emit("usuario entra no chat",contato_id, (response) =>{
+ 		socket.emit("muda status",{contato_id:contato_id,status:'online'},(response) => {
+			
+		 });
+
+		socket.on("lista usuarios", (usuarios) =>{
+			usersList = []
+			for(i = 0 ; i <= usuarios.usuarios.length-1; i++){
+				$('#status'+usuarios.usuarios[i].id).attr('class',usuarios.usuarios[i].status)		
+				usersList.push(usuarios.usuarios[i])
+
+			} 
+			
+			var list = []
+
+			usersList.forEach(user=>{
+				list.push(JSON.stringify(user))
+			})
+			
+			localStorage.setItem('list', list.toString())
+
+			// VARIAVEL DADOS DE USUARIO
+		})
+		
+	})
+}
+localStorage.setItem('opcao',0)
+
+$('#contacts-list').click(function(e){
+	
+
+	$('#contacts').empty()	
+	$('#contacts-list').removeClass('btn btn-danger')
+	$('#contacts-list').addClass('btn btn-warning')
+	$('#contacts-list').val('CONTATOS')
+
+	$('#contacts-list').prop('disabled',true)
+	$('#groups').prop('disabled',false)
+
+	$('#busca_contatos').show();
+ 	$('#busca_departamentos').hide();
+ 	localStorage.setItem('opcao',0)
+ 	enterRoom()
+	 
+})
+
+var departList = [];
+
+
+$('#groups').click(function(e){
+
+	//console.log(departList)	
+
+	$('#groups').removeClass('btn btn-danger')
+	$('#groups').addClass('btn btn-warning')
+	$('#groups').val('GRUPOS')
+
+	$('#contacts-list').prop('disabled',false)
+	$('#groups').prop('disabled',true)
+
+	//$('#contacts').empty()
+	
+	localStorage.setItem('opcao',1)
+
+	$('#busca_contatos').hide();
+	$('#busca_departamentos').show();
+
+	if(loadDepart == false){
+		
+		socket.emit('carrega departamentos', {contato_id:contato_id}, (response) => {
+
+		var departList = [];
+		var localLastM = localStorage.getItem('lastMessageGroup')
+			localLastM = localLastM.split(',')
+
+	
+			
+			for(i = 0 ; i <= response.data.length-1 ; i++){
+				departList.push(response.data[i])
+
+				id   = response.data[i].id;
+				room = response.data[i].id;
+
+			}
+
+
+ 			$('#contacts').empty()
+
+			var group_order = localStorage.getItem('lastMessageGroup').split(',')
+			
+			var count = 0
+			
+			
+			for(j = 0 ; j <= departList.length-1 ; j++)	{
+
+				for(i = 0 ; i <= localLastM.length-1 ; i++)	{
+					
+					var index = departList.map(j => parseInt(j.id)).indexOf(parseInt(localLastM[i]))
+
+
+					if(index > -1 && count <= localLastM.length-1){
+						$('#contacts').append(
+										"<ul onclick='localizaUsuario("+departList[index].id+")'>"+
+											"<li class='contact contact-active'> "+
+												"<div class='wrap'>"+
+													"<img src='images/grupo.png'/>"+
+													"<div class='meta'>"+
+														"<p class='name'>"+departList[index].name+"</p>"+
+														"<p class='preview' ></p>"+
+														"</p>"+
+													"</div>"+
+												"</div>"+
+												"<span class='badge badge-pill badge-danger ' id='badgeGroup"+departList[index].id+"'>Nova Mensagem</span>"+
+											"</li>"+
+										"</ul>"
+						)	
+					
+					count++
+					}
+				}
+
+					$('#contacts').append(
+									"<ul onclick='localizaUsuario("+departList[j].id+")' id='departOld"+departList[j].id+"'>"+
+										"<li class='contact contact-active'> "+
+											"<div class='wrap'>"+
+												"<img src='images/grupo.png'/>"+
+												"<div class='meta'>"+
+													"<p class='name'>"+departList[j].name+"</p>"+
+													"<p class='preview' ></p>"+
+													"</p>"+
+												"</div>"+
+											"</div>"+
+											"<span class='badge badge-pill badge-danger ' id='badgeGroup"+departList[j].id+"'></span>"+
+										"</li>"+
+									"</ul>"
+					)	
+			}
+
+			for(i = 0 ; i <= localLastM.length-1 ; i++)	{
+				$('#departOld'+localLastM[i]).remove() 
+			}
+			count = 0
+
+			var loadDepart = true
+		
+		})
+	}
+})
+
+socket.emit("bio do usuario",contato_id, (response) =>{
+ 	telefone = response.resposta[0].phone
+ 	$('#profile-extension').val(response.resposta[0].extension)	
+	$('#profile-bio').val(response.resposta[0].bio)	
+	$('#profile-phone').val(telefone)		
+	$('#profile-email').val(response.resposta[0].email)
+
+	
+})
+
+// LISTAR USUARIOS
+socket.on("lista usuarios", (usuarios) =>{
+
+	socket.emit('carrega departamentos', {contato_id:`{{id}}`}, (response) => {console.log(response)})
+
+	socket.on("conta mensagem nao lida",(response) => { 
+ 		$('#badge'+response.emitter_id).html(response.iMsgNaoLida)
+ 		$('#titulo').html('VoxChat - (Nova Mensagem)')
+	})
+
+	var opcao = localStorage.getItem('opcao')
+
+	switch(opcao){
+		case '0':
+		$('#contacts').empty()
+
+		TotalUsuarios = usuarios.usuarios.length
+		//console.log(TotalUsuarios)
+
+		for(i = 0 ; i<=TotalUsuarios-1 ; i++){
+			var pic =usuarios.usuarios[i].file_picture
+			gravatar = pic ? pic :"https://secure.gravatar.com/avatar/"+md5(usuarios.usuarios[i].email);
+
+			id          = usuarios.usuarios[i].id;
+			telefone    = usuarios.usuarios[i].phone
+			iMensagem   = usuarios.usuarios[i].iMensagemRecebida;
+		
+		
+			if(usuarios.usuarios[i].id != "{{id}}" ){
+				if(iMensagem > 0){
+					//console.log("aqui"+gravatar)
+					$('#contacts').append(
+											"<ul onclick='localizaUsuario("+id+")'>"+
+												"<li class='contact contact-active"+id+"'> "+
+													"<div class='wrap'>"+
+														"<span class='contact-status"+usuarios.usuarios[i].status+"' id='status"+id+"'></span>"+
+														"<img src='"+gravatar+"' onclick='localizaUsuario("+id+")'/>"+
+														"<div class='meta'>"+
+															"<p class='name' title='"+usuarios.usuarios[i].status+"'>"+usuarios.usuarios[i].name+"</p>"+
+															"<p class='preview'></p>"+
+															"</p>"+
+														"</div>"+
+													"</div>"+
+													"<span class='badge badge-pill badge-danger' id='badge"+id+"'>"+iMensagem+"</span>"+
+												"</li>"+
+											"</ul>"
+					)
+				}
+				if(iMensagem <= 0){ 
+					$('#contacts').append(
+											"<ul onclick='localizaUsuario("+id+")'>"+
+												"<li class='contact contact-active"+id+"' >"+
+													"<div class='wrap' id='wrap"+id+"''>"+
+														"<span class='contact-status"+usuarios.usuarios[i].status+"' id='status"+id+"'></span>"+
+														"<img src='"+gravatar+"' onclick='localizaUsuario("+id+")' />"+
+														"<div class='meta'>"+
+															"<p class='name' title='"+usuarios.usuarios[i].status+"'>"+usuarios.usuarios[i].name+"</p>"+
+															"<p class='preview'></p>"+
+															"</p>"+
+														"</div>"+
+													"</div>"+
+													"<span class='badge badge-pill badge-danger' id='badge"+id+"'></span>"+
+												"</li>"+
+											"</ul>"
+					)
+				}
+				
+			}
+
+		}
+
+		email = md5("{{email}}") 
+		var mypic = novaImg ? novaImg: "{{picture}}"
+	//console.log(mypic)
+		mypic = mypic ? mypic : "https://secure.gravatar.com/avatar/"+email
+		$('#profile-img').attr('src', mypic)
+		$('#profile-name').html("{{name_usuario}}")
+		break;
+	}
+  
+})
+
+// ATUALIZA NA DIV MENSAGEM DO GRUPO
+var lastMessageGroup = []
+
+socket.on("atualiza mensagem grupo", (response) => {
+	var opcao = localStorage.getItem('opcao')
+	var index = lastMessageGroup.indexOf(response.msg.room)
+
+	if(index > -1){
+		lastMessageGroup.splice(index, 1)
+		lastMessageGroup.unshift(response.msg.room)
+		localStorage.setItem('lastMessageGroup',lastMessageGroup.toString())
+	}
+
+	if(index == -1){
+		lastMessageGroup.unshift(response.msg.room)
+		localStorage.setItem('lastMessageGroup',lastMessageGroup.toString())
+	}
+		
+	
+	switch(opcao){
+		case '0':
+			
+			$('#groups').removeClass('btn btn-warning')
+			$('#groups').addClass('btn btn-danger')
+			$('#groups').val('Nova Mensagem')
+		break;
+		case '1':
+			$('#groups').trigger('click')
+//------------------------------------------------------------------------------------------------------------------- --}}
+
+		document.getElementById("alert-audio").play()
+
+		nome_remetente = response.msg.nome_remetente
+		mensagem       = response.msg.mensagem
+
+		gravatar = 'images/grupo.png'
+		dataHora = moment().format('HH:mm')
+
+	////	
+
+		if(response.msg.room == $('#contact-profile-destinatario_id').val()) {
+			
+			if(response.msg.arquivo != ''){
+
+				setTimeout(function(){ 
+			
+				var filename = response.msg.arquivo
+				var iTam = filename ? filename.length : ""
+				var extension = filename ? filename.substr(-3,iTam) : ""
+
+				// AUDIO RECEBIDO DO SERVIDOR 
+
+				if(extension.toLowerCase() == 'mp3'){
+					//console.log(response)
+					if($('#contact-profile-destinatario_id').val() ==  response.msg.room){
+						$('#conteudo-message').append(
+								"<li class='replies'>"+
+										"<span>"+nome_remetente+"</span>"+
+										"<br>"+
+										"<audio controls src='uploads/"+filename+"' > </audio>"+
+								"</li>"	
+							)
+						return false
+					} 
+					return false
+				}
+
+				if(
+					extension.toLowerCase() == 'jpg' || 
+					extension.toLowerCase() == 'bmp' ||
+					extension.toLowerCase() == 'gif' ||
+					extension.toLowerCase() == 'png' ||
+					extension.toLowerCase() != 'mp3'
+				){
+
+					// IMAGEM RECEBIDA DO SERVIDOR 
+					
+
+					$('#conteudo-message').append(
+						"<img class='img-recebida card-image' "+
+						"src='uploads/"+filename+"'>"+
+						"<li class='sent'>"+
+						"<span>"+nome_remetente+"</span>"+
+						"<br>"+
+						"<p><a href='uploads/"+filename+"' target='_blank'>"+filename+"</a>"+
+						"</li>"
+
+					)
+					
+				}else{
+					
+					$('#conteudo-message').append(
+						"<li class='sent'>"+
+							"<span>"+nome_remetente+"</span>"+
+							"<br>"+
+							"<p><a href='uploads/"+filename+"' target='_blank'>"+response.msg.arquivo+"</a>"+
+						"</li>"
+					)
+				}
+				
+				}, 4000)
+			}else{
+				
+				$('#conteudo-message').append(
+					"<li class='sent'>"+
+						"<span>"+nome_remetente+"</span>"+
+						"<br>"+
+						"<img src='"+gravatar+"'/>"+
+						"<p>"+mensagem+"<span id='dataHora'> - "+dataHora+"</p>"+
+					"</li>"			
+				)				
+			}
+		}	
+		break;
+	}
+})
+
+// ATUALIZA NA DIV MENSAGEM PRIVADA
+socket.on("atualiza mensagem", (response) => {
+	
+		var opcao = localStorage.getItem('opcao')
+
+		switch(opcao){
+			
+			case '1':
+			$('#contacts-list').removeClass('btn btn-warning')
+			$('#contacts-list').addClass('btn btn-danger')
+			$('#contacts-list').val('Nova Mensagem')
+			break;
+		}
+	
+		document.getElementById("alert-audio").play()
+		//console.log( imgSelecionado,'visu')
+
+		mensagem = response.mensagem
+
+		gravatar = imgSelecionado ? imgSelecionado : "https://secure.gravatar.com/avatar/"+md5(response.email);
+
+		dataHora = moment().format('HH:mm')
+		
+		if(response.destino == $('#contact-profile-destinatario_id').val()) {
+
+			if(response.arquivo != ''){
+
+				setTimeout(function(){ 
+				
+				var filename = response.arquivo
+				var iTam = filename ? filename.length : ""
+				var extension = filename ? filename.substr(-3,iTam) : ""
+
+				// AUDIO RECEBIDO DO SERVIDOR 
+
+				if(extension.toLowerCase() == 'mp3'){
+					if($('#contact-profile-destinatario_id').val() ==  response.destino){
+						$('#conteudo-message').append(
+								"<li class='replies'>"+
+										"<audio controls src='uploads/"+filename+"' > </audio>"+
+								"</li>"	
+							)
+						return false
+					} 
+					return false
+				}
+
+				if(
+					extension.toLowerCase() == 'jpg' || 
+					extension.toLowerCase() == 'bmp' ||
+					extension.toLowerCase() == 'gif' ||
+					extension.toLowerCase() == 'png' ||
+					extension.toLowerCase() != 'mp3'
+				){
+
+					// IMAGEM RECEBIDA DO SERVIDOR 
+				
+					$('#conteudo-message').append(
+						"<img class='img-recebida card-image' "+
+						"src='uploads/"+filename+"'>"+
+						"<li class='sent'>"+
+						"<p><a href='uploads/"+filename+"' target='_blank'>"+filename+"</a>"+
+						"</li>"
+
+					)
+					
+				}else{
+					
+					$('#conteudo-message').append(
+						"<li class='sent'>"+
+							"<p><a href='uploads/"+filename+"' target='_blank'>>"+response.file+"</a>"+
+						"</li>"
+					)
+				}
+				
+				}, 4000)
+
+				
+			}else{ 
+					if($('#contact-profile-destinatario_id').val() ==  response.destino){
+						$('#conteudo-message').append(
+							"<li class='sent'>"+
+								"<img src='"+gravatar+"'/>"+
+								"<p>"+mensagem+"<span id='dataHora'> - "+dataHora+"</p>"+
+							"</li>"			
+						)		
+				}
+			
+			}
+			
+		}	
+})
+
+socket.on("departamento selecionado", (dados) => {
+
+	// INSERIR DADOS USUARIOS EXTEND DA  BIO
+	id = dados.dados[0].id
+
+	localStorage.setItem('dep', 1)
+	localStorage.setItem('id',id )
+ 	
+	img = 'images/grupo.png'
+	$('#contact-profile-img').attr('src',img)
+	$('#contact-profile-name').html(dados.dados[0].name)
+	$('#contact-profile-destinatario_id').val(id)
+
+	room = id
+	$('#badgeGroup'+room).html('') 
+	lastMessageGroup.shift(id)
+})
+
+socket.on("contato selecionado", (dados) => {
+	
+
+	localStorage.setItem("dep",0)
+	var img =dados.dados[0].file_picture
+
+	$('#emailContact').val(dados.dados[0].email)
+	$('#phoneVoxSip').val(dados.dados[0].extension)
+	
+	email = md5(dados.dados[0].email)
+
+	img = img? img :"https://secure.gravatar.com/avatar/"+email
+	//console.log(dados.dados)
+
+	$('#contact-profile-img').attr('src',img)
+	$('#contact-profile-name').html(dados.dados[0].name)
+	$('#contact-profile-socket_id').val(dados.dados[0].socket_id)
+	$('#contact-profile-destinatario_id').val(dados.dados[0].id)
+	$('#contact-profile-email').val(dados.dados[0].email)
+	
+	$('#contact-profile-bio').val(dados.dados[0].bio)
+	$('#contact-profile-extension').val(dados.dados[0].extension)
+	
+	$('#contact-profile-departament').val(dados.dados[0].department_name)
+	
+	$('#contact-profile-phone').val(dados.dados[0].phone)
+	return imgSelecionado = img
+
+})
+
+	
+})
+
+//////////////////////////////////////////
+var lastClick = 0
+var delay     = 30
+
+
+async function localizaUsuario(id){
+  $('#loadingGif').show()
+  
+
+  $('#titulo').html('VoxChat')
+
+  $('.message-input').show()
+  $('.mensagem').focus()
+  // Evitar Duplo Clique
+  if (lastClick >= (Date.now() - delay))
+  return
+  lastClick = Date.now()
+  /////////////////////////////////////////
+
+	x = $('#contact-profile-destinatario_id').val() 
+	if(id != $('#contact-profile-destinatario_id').val()){
+		$('#phoneVoxSip').val(telefone)
+				
+		$('.voxsip').click(function(e){
+			extension = $('#phoneVoxSip').val()
+			window.open('tel:'+extension)
+		})
+
+		$('.voxsipPhone').click(function(e){
+			
+			tel = $('#contact-profile-phone').val()
+			tel = tel.replace("(","").replace(")","").replace(" ", "").replace("-", "")
+			console.log(tel)
+			window.open('tel:'+tel)
+		})
+
+		$('.emailContact').click(function(e){
+			
+			window.open('mailto:'+$('#contact-profile-email').val())
+			
+		})
+
+		$('.message-input').show()
+
+
+		$('.mensagem').focus()
+		remetente = "{{id}}"
+		
+		$('.contact').removeClass('active')
+		$('.contact-active'+id).addClass('active')
+
+		var opcao = localStorage.getItem('opcao')
+
+		switch(opcao){
+			case '0':
+				socket.emit('dados do contato',{id:id}) 
+			break;
+			case '1':
+				socket.emit('dados do departamento',{id:id}) 
+			break;
+		}
+	 
+
+		var opcao = localStorage.getItem('opcao')
+
+		switch(opcao){
+			case '0':		
+			socket.emit('confirma leitura mensagem',{destinatario:id}, (response) => {
+		 		$('#badge'+id).empty()
+			})
+			break;
+			case '1':
+			var idGroup = id
+			lastMessageGroup = localStorage.getItem('lastMessageGroup')
+			
+			
+			search = lastMessageGroup.indexOf(idGroup+',')
+			if(search > -1){
+				var replace = lastMessageGroup.replace(idGroup+',','')
+
+			}else{
+				var replace = lastMessageGroup.replace(idGroup,'')
+			}
+			localStorage.setItem('lastMessageGroup',replace)
+			break;
+		
+		}
+		console.log(remetente+ ' ' +id)
+
+
+		socket.emit('historico de mensagem',{remetente:remetente,destinatario:id,opcao:opcao}, (response) => {
+			$('#conteudo-message').empty()
+			
+
+			pathAWS = 'https://voxcity-chat.s3.us-east-2.amazonaws.com/'
+			revertExpand()
+			minhaFoto = minhaFoto = $('#profile-img').attr('src')
+			
+			iMensagem = response.resposta.length
+			for (i = 0 ; i <= iMensagem-1 ; i++){		 
+				console.log(response.resposta[i],)
+	 		
+				var filename = response.resposta[i].file
+				var iTam = filename.length
+				var extension = filename.substr(-3,iTam)
+				
+				arquivo  = response.resposta[i].file
+				mensagem = response.resposta[i].message.URLToAnchors().breakLines()
+				dataHora = moment(response.resposta[i].created).format('HH:mm:ss')
+				enviada  = response.resposta[i].emitter
+				email     = response.resposta[i].email
+
+				var opcao = localStorage.getItem('opcao')
+				switch(opcao){
+					case '0':
+						if(imgSelecionado == undefined) nome_remetente = ''
+						fotoDestinatario  = imgSelecionado			
+						nome_remetente = ''	
+					break;
+					case '1':
+						fotoDestinatario = "https://secure.gravatar.com/avatar/"+email
+						nome_remetente = response.resposta[i].name
+						  	
+					break;
+				}
+				
+				if(extension.toLowerCase() == 'mp3'){
+			  	if(enviada == remetente){
+							if(arquivo.length > 0){
+								$('#conteudo-message').append(					
+												"<audio controls src='"+pathAWS+arquivo+"' class='audio-enviada'> </audio> - "
+									)
+							}
+					}
+					else{
+							$('#conteudo-message').append(			
+
+											"<audio controls src='"+pathAWS+arquivo+"' class='audio-recebido'> </audio> - "
+								)				
+					} 
+				}
+
+				if(
+					extension.toLowerCase() == 'jpg' || 
+					extension.toLowerCase() == 'bmp' ||
+					extension.toLowerCase() == 'gif' ||
+					extension.toLowerCase() == 'png' ||
+					extension.toLowerCase() != 'mp3' 
+
+				){			
+				// Busca mensagem enviada na tabela
+	  		if(enviada == remetente){
+					if(arquivo.length > 0){
+						$('#conteudo-message').append(
+							"<img class='img-enviada'"+
+							 "src='"+pathAWS+arquivo+"' alt='' '>"+
+							"<li class='replies'>"+
+								"<p><a href='"+pathAWS+arquivo+"' target='_blank'>"+arquivo+"</a> - "+dataHora+""+
+							"</li>"
+						)					
+
+					}else{
+				
+						$('#conteudo-message').append(
+								"<li class='replies'>"+
+									"<img src='"+minhaFoto+"' alt='' />"+
+									"<p>"+mensagem+" - "+dataHora+"</p>"+
+								"</li>"	
+				
+						)
+					}
+				}else{
+					// IMAGEM DA TABELA
+					if(arquivo.length > 0){
+						$('#conteudo-message').append(
+							"<img class='img-recebida'"+
+							"src='"+pathAWS+arquivo+"' alt='' >"+
+							"<span class='nome_remetente'>"+nome_remetente+"</span>"+
+							"<br>"+
+							"<li class='sent'>"+
+								"<p><a href='"+pathAWS+arquivo+"' target='_blank'>"+arquivo+"</a> - "+dataHora+""+
+							"</li>"
+
+					
+						)					
+
+					}else{
+
+						$('#conteudo-message').append(
+								"<li class='sent'>"+
+									"<span>"+nome_remetente+"</span>"+
+									"<br>"+
+ 									// "<img src='"+fotoDestinatario+"' alt='' />"+
+									"<p>"+mensagem+" - "+dataHora+"</p>"+
+								"</li>"			
+						)
+						
+					}
+
+				}
+
+			}else{
+				// Arquivos Recebidos
+	  			if(enviada == remetente){
+					if(arquivo.length > 0){
+						$('#conteudo-message').append(
+							"<li class='replies'>"+
+								"<p><a href='"+pathAWS+arquivo+"'  target='_blank'>"+arquivo+"</a></span> - "+dataHora+""+
+							"</li>"	
+							
+						)					
+
+					}else{
+				
+						$('#conteudo-message').append(
+								"<li class='replies'>"+
+									"<img src='"+minhaFoto+"' alt='' />"+
+									"<p>"+mensagem+" - "+dataHora+"</p>"+
+								"</li>"			
+						)
+					}
+				}else{
+
+					if(arquivo.length > 0){
+						$('#conteudo-message').append(
+
+							"<li class='sent'>"+
+								"<span>"+nome_remetente+"</span>"+
+								"<br>"+
+								"<p><a href='"+pathAWS+arquivo+"'  target='_blank'>"+arquivo+"</a></span> - "+dataHora+""+				
+							"</li>"
+					
+						)					
+
+					}else{
+						// MENSAGEM RECEBIDA 
+						
+						$('#conteudo-message').append(
+								"<li class='sent'>"+
+									"<span>"+nome_remetente+"</span>"+
+									"<br>"+
+									"<img src='"+fotoDestinatario+"' alt='' />"+
+									"<p>"+mensagem+" - "+dataHora+"</p>"+
+								"</li>"			
+						)
+					}
+					
+				}
+				
+			}
+				
+			}
+
+		})	
+
+	}
+	await espera(0.5)
+	$('#loadingGif').fadeOut(1000)
+}
+
+
+// comentario
+</script>
+</body>
+</html>
+
+ 
